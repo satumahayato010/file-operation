@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
-	_, err := os.Stat("test.txt")
-	if os.IsNotExist(err) {
-		fmt.Println("no such file")
+	file, err := os.Open("test.txt")
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer file.Close()
 }
