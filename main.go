@@ -1,22 +1,19 @@
 package main
 
 import (
-	"fmt"
+	"io"
 	"log"
 	"os"
 )
 
 func main() {
-	file, err := os.Open("test.txt")
+	file, err := os.OpenFile("test.txt", os.O_RDWR|os.O_APPEND, 0775)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
-
-	buf := make([]byte, 64)
-	n, err := file.Read(buf)
-	if err != nil {
+	w := []byte("write test\n")
+	_, err = file.Write(w)
+	if err != io.EOF && err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(buf[:n]))
 }
